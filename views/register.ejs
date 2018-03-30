@@ -1,0 +1,47 @@
+<%- include ./partials/header %>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Signup</h1>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+
+  <div class="col-lg-6 offset-lg-3">
+      <div class="signupForm">
+          <h1 class="signupHeader">Start coding!</h1>
+          <form action="/users/register" method="POST">
+
+              <div class="form-group">
+                  <label>Username</label>
+                  <input class="form-control" name="username" type="text" placeholder="Enter your username" value="">
+              </div>
+
+              <div class="form-group">
+                  <label>Email</label>
+                  <input class="form-control" name="email" type="email" placeholder="Your email goes here" value="">
+              </div>
+
+              <div class="form-group">
+                  <label>Password</label>
+                  <input class="form-control" name="password" type="password" placeholder="Enter your password" value="">
+              </div>
+
+              <div class="form-group">
+                  <label>Confirm password</label>
+                  <input class="form-control" name="password2" type="password" placeholder="Confirm your password" value="">
+              </div>
+
+            <div class="form-group">
+                <input class="btn btn-info" type="submit" value="Sign up">
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+<%- include ./partials/footer %>

@@ -1,0 +1,1 @@
+npm i bcryptjs body-parser connect-flash cookie-parser express express-messages express-session express-validator method-override mongodb mongoose passport passport-http passport-local ejs -S
