@@ -1,8 +1,10 @@
 const express = require("express");
 const router  = express.Router();
+const passport = require("passport"),
+    LocalStrategy = require("passport-local").Strategy;
+
 const User    = require("../models/User");
-const passport         = require("passport"),
-    LocalStrategy    = require("passport-local").Strategy;
+
 
 // GET Login page
 router.get("/login", (req, res)=>{
@@ -49,7 +51,7 @@ router.post("/register", (req, res)=>{
             email: email,
             password: password,
             isAdmin: false,
-            progress: []
+            progress: 0
         });
 
         User.createUser(newUser, (err, user)=>{

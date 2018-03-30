@@ -1,1 +1,1 @@
-body{color:#232323}.jumbotron{padding:8rem 2rem}.jumbotronText{padding:1.5rem 2rem;background:rgba(250,250,250,.6);border-radius:.5rem}
+body{color:#232323}a:hover{text-decoration:none}.jumbotron{padding:8rem 2rem}.jumbotronText{padding:1.5rem 2rem;background:rgba(250,250,250,.6);border-radius:.5rem}.alert{position:absolute;top:56px;left:20px;right:20px}.isDisabled{cursor:default}.isDisabled .card{opacity:.7}.card{-moz-transition:.2s;-o-transition:.2s;-webkit-transition:.2s;transition:.2s}.card:hover{opacity:.85}.exerciceForm{margin-top:8rem;margin-bottom:8rem}

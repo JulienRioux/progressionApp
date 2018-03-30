@@ -12,6 +12,9 @@ const express = require("express"),
       mongoose = require("mongoose"),
       methodOverride = require("method-override");
 
+// // Adding some middlewares
+// let middleware = require("../middlewares");
+
 // Init the app
 const app = express();
 
@@ -69,6 +72,7 @@ app.use((req, res, next)=>{
     res.locals.success_msg = req.flash("success_msg");
     res.locals.error_msg = req.flash("error_msg");
     res.locals.error = req.flash("error");
+    res.locals.errors = req.flash("errors");
     // if there is a user logged in, return the user, else return null
     res.locals.user = req.user || null;
     next();
@@ -78,13 +82,13 @@ app.use((req, res, next)=>{
 // Setup the routes
 let index = require("./routes/index");
 let users = require("./routes/users");
-let progression = require("./routes/progression");
+let exercices = require("./routes/exercices");
 
 
 // Middleware for routes files
 app.use("/", index);
 app.use("/users", users);
-app.use("/progression", progression);
+app.use("/exercices", exercices);
 
 
 // set the port

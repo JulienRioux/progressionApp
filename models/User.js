@@ -7,7 +7,7 @@ let UserSchema = mongoose.Schema({
     password: String,
     email: String,
     isAdmin: Boolean,
-    progress: Array
+    progress: Number
 });
 
 let User = module.exports = mongoose.model("User", UserSchema);

@@ -17,15 +17,16 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <% if(user){ %>
-            <% console.log("LOGGED") %>
             <li class="nav-item">
-              <a class="nav-link" href="/progression">Let's play!</a>
+              <a class="nav-link" href="/exercices">Let's play!</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/exercices/new">Add exercice</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/users/logout">Logout</a>
             </li>
           <% } else {%>
-            <% console.log("NOT LOGGED!!!") %>
             <li class="nav-item">
               <a class="nav-link" href="/users/login">Login</a>
             </li>
@@ -37,3 +38,4 @@
       </div>
     </div>
   </nav>
+  <%- include ./messages %>

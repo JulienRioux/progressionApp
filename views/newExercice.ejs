@@ -1,0 +1,34 @@
+<%- include ./partials/header %>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Add exercice</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-lg-6 offset-lg-3">
+      <div class="signupForm">
+          <h1 class="signupHeader">New exercice</h1>
+          <form action="/exercices/new" method="POST">
+
+              <div class="form-group">
+                  <label>Question</label>
+                  <input class="form-control" name="question" type="text" placeholder="Your question goes here" value="">
+              </div>
+
+              <div class="form-group">
+                  <label>Answer</label>
+                  <input class="form-control" name="answer" type="text" placeholder="Enter your answer">
+              </div>
+
+              <div class="form-group">
+                  <input class="btn btn-info" type="submit" value="Add it!">
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+
+<%- include ./partials/footer %>

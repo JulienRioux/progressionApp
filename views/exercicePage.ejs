@@ -1,0 +1,22 @@
+<%- include ./partials/header %>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Let's play!</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="col-lg-6 offset-lg-3 exerciceForm">
+      <h1><%= exercice.question %></h1>
+      <form action="/exercices/<%= exercice._id %>" method="POST">
+        <div class="form-group">
+          <input type="text" name="answer"  class="form-control" value="">
+        </div>
+        <input type="hidden" name="userID" value=<%= user._id %>>
+        <input type="submit"  class="btn btn-primary" value="Submit">
+      </form>
+  </div>
+</div>
+
+<%- include ./partials/footer %>

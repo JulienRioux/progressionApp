@@ -1,0 +1,52 @@
+<%- include ./partials/header %>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Let's play!</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div>
+    <div class="row">
+      <% exercices.forEach((exercice) => { %>
+        <div class="col-lg-4">
+          <% if(user.progress ==  exercice.order) { %>
+            <a href="/exercices/<%= exercice._id %>">
+              <div class="card text-white bg-primary mb-3">
+
+                <div class="card-header">Exercice <%= exercice.order %></div>
+                <div class="card-body">
+                  <h5 class="card-title"><%= exercice.question %></h5>
+                </div>
+              </div>
+            </a>
+          <% } else if(user.progress >  exercice.order) { %>
+            <a href="/exercices/<%= exercice._id %>">
+              <div class="card text-white bg-success mb-3">
+
+                <div class="card-header">Exercice <%= exercice.order %></div>
+                <div class="card-body">
+                  <h5 class="card-title"><%= exercice.question %></h5>
+                </div>
+              </div>
+            </a>
+          <% } else {%>
+            <a class="isDisabled" href="">
+              <div class="card text-white bg-primary mb-3">
+
+                <div class="card-header">Exercice <%= exercice.order %></div>
+                <div class="card-body">
+                  <h5 class="card-title">BLOCKED</h5>
+                </div>
+              </div>
+            </a>
+          <% }; %>
+        </div>
+      <% }); %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include ./partials/footer %>
