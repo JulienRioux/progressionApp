@@ -11,7 +11,7 @@
       <h1><%= exercice.question %></h1>
       <form action="/exercices/<%= exercice._id %>" method="POST">
         <div class="form-group">
-          <input type="text" name="answer"  class="form-control" value="">
+          <input type="text" name="answer"  class="form-control" value="" autocomplete="off">
         </div>
         <input type="hidden" name="userID" value=<%= user._id %>>
         <input type="submit"  class="btn btn-primary" value="Submit">
