@@ -5,21 +5,60 @@ const Exercice = require("../models/Exercice");
 const User    = require("../models/User");
 
 
+// ===============================
+//        Show exercices
+// ===============================
 
-// Show exercices
-router.get("/", (req, res)=>{
+router.get("/", (req, res, next)=>{
+  // check if the user have the collection progression in his progression array
+  let currentUser = req.user;
+
+  // change the value of the currentCollection to the real collection that you want to add later!
+  let currentCollection = "introToJavaScript";
+
+  console.log(currentUser.progress);
+
+  // if(currentUser.progress.find(x => x.collection === currentCollection))
+
+  console.log("currentUser.progress[currentCollection] => ",currentUser.progress[currentCollection]);
+
+  if(currentUser.progress[currentCollection] === undefined){
+
+    let newCollectionProg = {};
+    newCollectionProg[currentCollection] = 0;
+
+    console.log("newCollectionProg", newCollectionProg);
+
+    // add the collection to the progress object
+    User.findByIdAndUpdate({_id: currentUser._id}, {$set: { progress: newCollectionProg}}, {new: true}, (err, user)=> {
+      if(err) {
+        throw err;
+      }
+      console.log("user: ", user);
+    });
+    next();
+  } else {
+    next();
+  }
+}, (req, res)=>{
   Exercice.find({}, (err, exercices) =>{
     res.render("showExercices", {exercices: exercices});
   });
 });
 
+// ===============================
+//    Get the new exercice form
+// ===============================
 
-// Get the new exercice form
 router.get("/new", (req, res)=>{
   res.render("newExercice");
 });
 
-// Post New Exercice
+
+// ===============================
+//       Post New Exercice
+// ===============================
+
 router.post("/new", (req, res)=> {
   console.log(req.body);
   let question = req.body.question,
@@ -28,7 +67,6 @@ router.post("/new", (req, res)=> {
   // Validation
   req.checkBody("question", "Question is required").notEmpty();
   req.checkBody("answer", "answer is required").notEmpty();
-
   var errors = req.validationErrors();
 
   if(errors){
@@ -40,13 +78,11 @@ router.post("/new", (req, res)=> {
       });
   } else {
       Exercice.find().exec(function (err, exercices) {
-
         var newExercice = new Exercice({
             question: question,
             answer: answer,
             order: exercices.length
         });
-
         Exercice.createExercice(newExercice, (err, exercice)=>{
             if(err) {
               throw err
@@ -63,17 +99,29 @@ router.post("/new", (req, res)=> {
 });
 
 
-// Get the exercice page
+// ===============================
+//     Get the exercice page
+// ===============================
+
 router.get("/:id", (req, res)=>{
   Exercice.findById(req.params.id, (err, exercice)=>{
     res.render("exercicePage", {exercice:exercice});
   });
 });
 
-// Check if the answer is right
+
+
+// ===============================
+//  Check if the answer is right
+// ===============================
+
 router.post("/:id", (req, res)=>{
 
   let answer = req.body.answer;
+
+  let currentUser = req.user;
+  // change the value of the currentCollection to the real collection that you want to add later!
+  let currentCollection = "introToJavaScript";
 
   // Validation
   req.checkBody("answer", "answer is required").notEmpty();
@@ -92,23 +140,30 @@ router.post("/:id", (req, res)=>{
     } else if(exercice.answer == req.body.answer){
       // check if the user has already passed this exercice
       User.findById(req.body.userID, (err, user)=>{
-        if(user.progress == exercice.order){
-          console.log(exercice.order, user.progress);
-          if(err){
-            throw err;
-          } else {
+        if(err){
+          throw err;
+        } else {
+          // change the value of the currentCollection to the real collection that you want to add later!
+          let currentCollection = "introToJavaScript";
+          if(user.progress[currentCollection] == exercice.order){
+            // Set up a variable to be able to increment the progress for any collection
+            let collectionString = "progress." + currentCollection;
+            let incrementCollectionObj = {};
+            incrementCollectionObj[collectionString] = 1;
             // increment his progress if not already passed this exercice
-            User.findByIdAndUpdate(req.body.userID, {$inc: {progress: 1 }}, (err, user)=>{
+            User.findByIdAndUpdate(req.body.userID, {$inc: incrementCollectionObj}, (err, user)=>{
               if(err){
                 throw err;
               } else {
-                user.progress++;
                 // check if it's the last exercice of the exercice collection
                 Exercice.find({}, (err, AllExercices)=>{
                   if(err){
                     throw err;
                   } else {
-                    if(user.progress == AllExercices.length){
+                    // print the progression in %
+                    let progressPrcnt = ((user.progress[currentCollection]+1) / AllExercices.length ) * 100;
+                    console.log("=> Progression: " + progressPrcnt + "%");
+                    if(user.progress[currentCollection]== AllExercices.length-1){
                       req.flash("success_msg", "You've passed it all!");
                     } else {
                       req.flash("success_msg", "You've got it!");
@@ -118,10 +173,10 @@ router.post("/:id", (req, res)=>{
                 });
               }
             });
+          } else {
+            req.flash("success_msg", "Once again, you've got it!");
+            res.redirect("/exercices");
           }
-        } else {
-          req.flash("success_msg", "Once again, you've got it!");
-          res.redirect("/exercices");
         }
       });
     } else {

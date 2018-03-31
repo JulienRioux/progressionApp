@@ -23,6 +23,12 @@ a:hover {
   color: #000000;
 }
 
+.navbar {
+  background: #00fff3;
+  background: -webkit-linear-gradient(to right, #92FE9D, #00fff3);
+  background: linear-gradient(to right, #92FE9D, #00fff3);
+}
+
 
 .jumbotronText {
   padding: 1.5rem 2rem;
@@ -56,4 +62,12 @@ a:hover {
 .exerciceForm {
   margin-top: 8rem;
   margin-bottom: 8rem;
+}
+
+.bg-success {
+    background-color: #50d448!important;
+}
+
+.bg-primary {
+    background-color: #384ef9!important;
 }

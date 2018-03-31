@@ -2,13 +2,14 @@ let mongoose = require("mongoose"),
     bcrypt   = require("bcryptjs");
 
 // User Schema
+// use minimize: false to be able to initiate users with empty dictionnary. Otherwise, if the user is init with an empty progress dictionnary, it doesnt show up.
 let UserSchema = mongoose.Schema({
     username: String,
     password: String,
     email: String,
     isAdmin: Boolean,
-    progress: Number
-});
+    progress: Object
+}, { minimize: false });
 
 let User = module.exports = mongoose.model("User", UserSchema);
 

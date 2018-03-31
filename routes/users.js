@@ -51,7 +51,7 @@ router.post("/register", (req, res)=>{
             email: email,
             password: password,
             isAdmin: false,
-            progress: 0
+            progress: {}
         });
 
         User.createUser(newUser, (err, user)=>{
