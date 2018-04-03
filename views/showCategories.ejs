@@ -1,0 +1,41 @@
+<%- include ./partials/header %>
+
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">Let's play!</h1>
+  </div>
+</div>
+
+<section id="showCategories">
+  <div class="container">
+
+    <h1 class="display-4">Categories:</h1>
+
+    <div id="forEachCategories">
+      <div class="row">
+        <% categories.forEach((category) => { %>
+          <div class="col-lg-4">
+            <a href="/categories/<%= category._id %>">
+              <div class="card text-white bg-primary mb-3">
+
+                <div class="card-header">
+                  Category <%= category.order %>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <%= category.title %>
+                  </h5>
+                </div>
+              </div>
+            </a>
+          </div>
+        <% }); %>
+      </div>
+    </div>
+    <div>
+      <a href="/categories/new" class="btn btn-primary">Add category</a>
+    </div>
+  </div>
+</section>
+
+<%- include ./partials/footer %>

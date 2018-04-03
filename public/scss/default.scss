@@ -15,18 +15,26 @@ a:hover {
   text-decoration: none;
 }
 
+.card a {
+  color: white;
+
+  &:hover {
+    color: white;
+  }
+}
+
 .jumbotron{
   padding: 8rem 2rem;
   background: #00fff3;
-  background: -webkit-linear-gradient(to right, #92FE9D, #00fff3);
-  background: linear-gradient(to right, #92FE9D, #00fff3);
+  background: -webkit-linear-gradient(to right, #38ffa3,#00fff3);
+  background: linear-gradient(to right, #38ffa3,#00fff3);
   color: #000000;
 }
 
 .navbar {
   background: #00fff3;
-  background: -webkit-linear-gradient(to right, #92FE9D, #00fff3);
-  background: linear-gradient(to right, #92FE9D, #00fff3);
+  background: -webkit-linear-gradient(to right, #38ffa3,#00fff3);
+  background: linear-gradient(to right, #38ffa3,#00fff3);
 }
 
 
@@ -47,7 +55,7 @@ a:hover {
   cursor: default;
 
   .card {
-    opacity: .7;
+    opacity: .6;
   }
 }
 
@@ -56,7 +64,7 @@ a:hover {
 }
 
 .card:hover {
-  opacity: .85;
+  // opacity: .85;
 }
 
 .exerciceForm {
@@ -65,9 +73,38 @@ a:hover {
 }
 
 .bg-success {
-    background-color: #50d448!important;
+    background-color: #1abc9c!important;
+}
+.bg-success:hover {
+    background-color: #16a085!important;
 }
 
+
 .bg-primary {
-    background-color: #384ef9!important;
+    background-color: #3498db!important;
+}
+.bg-primary:hover {
+    background-color: #2980b9!important;
+}
+
+.bg-purple {
+  background-color: #9b59b6!important;
+}
+
+#showExercices,
+#showCategories {
+  margin: 4rem 0;
+}
+
+#forEachExercices,
+#forEachCategories{
+  margin: 3rem 0;
+}
+
+.btn-delete {
+  float:right;
+}
+
+.goBackExerciceBtn{
+  margin: 2rem 0;
 }

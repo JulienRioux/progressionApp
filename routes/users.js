@@ -96,7 +96,7 @@ passport.deserializeUser(function(id, done) {
 // Post Login User
 router.post('/login',
     passport.authenticate('local', {
-        successRedirect: "/",
+        successRedirect: "/categories",
         failureRedirect: "/users/login",
         failureFlash: true
     }),

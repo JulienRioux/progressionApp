@@ -1,10 +1,11 @@
 let mongoose = require("mongoose");
 
 
-// User Schema
+// Exercice Schema
 let ExerciceSchema = mongoose.Schema({
   question: String,
   answer: String,
+  category: String,
   order: Number
 });
 

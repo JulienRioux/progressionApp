@@ -1,0 +1,16 @@
+What to do next:
+
+- delete exercices
+
+- delete category => What to do with user category progress when deleted?
+- check that there is no duplicate when add category
+- check that there is no duplicate when add exercices
+- authentification via email
+- Make possible to only admin to delete exercices
+- update exercices ?
+- give the category order
+- make the category re-order possible
+- make a restart progress button for category
+- implement code Exercices
+- better design
+- add the isLoggedIn middleware 

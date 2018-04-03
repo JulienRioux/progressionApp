@@ -82,12 +82,14 @@ app.use((req, res, next)=>{
 // Setup the routes
 let index = require("./routes/index");
 let users = require("./routes/users");
+let categories = require("./routes/categories");
 let exercices = require("./routes/exercices");
 
 
 // Middleware for routes files
 app.use("/", index);
 app.use("/users", users);
+app.use("/categories", categories);
 app.use("/exercices", exercices);
 
 

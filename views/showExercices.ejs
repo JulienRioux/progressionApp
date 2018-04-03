@@ -6,55 +6,79 @@
   </div>
 </div>
 
-<div class="container">
-  <div>
-    <div class="row">
+<section id="showExercices">
+  <div class="container">
+    <div>
 
-      <%# Check get the collection progression. For now its introToJavaScript but it will come from the server later. %>
-      <% let currentCollection = "introToJavaScript"; %>
-      <% let currentProgress = user.progress[currentCollection]; %>
-      <% console.log("currentProgress: ", currentProgress) %>
-      <%# console.log(user); %>
+      <% let currentProgress = progression; %>
+      <% let exerciceLength = exercices.length; %>
+      <% let prcntProgression = Math.round(currentProgress / exerciceLength * 100); %>
+      <% prcntProgression = isNaN(prcntProgression) ? 0 : prcntProgression; %>
+
+      <form method="POST" action="/categories/<%= category.id %>?_method=DELETE">
+        <button class="btn btn-danger btn-delete" type="submit">Delete this category</button>
+      </form>
+
+      <p class="">Category: <span class="display-4"><%= category.title %></span></p>
+      <p class="lead">Progress: <%= prcntProgression %> %</p class="lead">
 
 
-      <% exercices.forEach((exercice) => { %>
-        <div class="col-lg-4">
-          <% if((currentProgress == undefined && exercice.order == 0) || currentProgress == exercice.order) { %>
-            <a href="/exercices/<%= exercice._id %>">
-              <div class="card text-white bg-primary mb-3">
 
-                <div class="card-header">Exercice <%= exercice.order %></div>
-                <div class="card-body">
-                  <h5 class="card-title"><%= exercice.question %></h5>
-                </div>
-              </div>
-            </a>
-          <% } else if(currentProgress >  exercice.order) { %>
-            <a href="/exercices/<%= exercice._id %>">
-              <div class="card text-white bg-success mb-3">
+      <div id="forEachExercices" >
+        <div class="row">
 
-                <div class="card-header">Exercice <%= exercice.order %></div>
-                <div class="card-body">
-                  <h5 class="card-title"><%= exercice.question %></h5>
-                </div>
-              </div>
-            </a>
-          <% } else {%>
-            <a class="isDisabled">
-              <div class="card text-white bg-primary mb-3">
+          <% exercices.forEach((exercice) => { %>
+            <div class="col-lg-4">
+              <% if((currentProgress == undefined && exercice.order == 0) || currentProgress == exercice.order) { %>
+                <a href="/exercices/<%= exercice._id %>">
+                  <div class="card text-white bg-primary mb-3">
 
-                <div class="card-header">Exercice <%= exercice.order %></div>
-                <div class="card-body">
-                  <h5 class="card-title">BLOCKED</h5>
-                </div>
-              </div>
-            </a>
-          <% }; %>
+                    <div class="card-header">Exercice <%= exercice.order %></div>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= exercice.question %></h5>
+                    </div>
+                  </div>
+                </a>
+              <% } else if(currentProgress >  exercice.order) { %>
+                <a href="/exercices/<%= exercice._id %>">
+                  <div class="card text-white bg-success mb-3">
+
+                    <div class="card-header">
+                      <div>
+                        Exercice <%= exercice.order %>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title"><%= exercice.question %></h5>
+                    </div>
+                  </div>
+                </a>
+              <% } else {%>
+                <a class="isDisabled">
+                  <div class="card text-white bg-primary mb-3">
+                    <div class="card-header">
+                      <div>
+                        Exercice <%= exercice.order %>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">BLOCKED</h5>
+                    </div>
+                  </div>
+                </a>
+              <% }; %>
+            </div>
+          <% }); %>
+
         </div>
-      <% }); %>
+      </div>
+
+      <div>
+        <a href="/categories" class="btn btn-primary">Go Back</a>
+        <a href="/exercices/<%= category.id %>/new" class="btn btn-info">Add exercices</a>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <%- include ./partials/footer %>

@@ -7,6 +7,11 @@
 </div>
 
 <div class="container">
+
+  <form method="POST" action="/exercices/<%= exercice._id %>?_method=DELETE">
+    <button class="btn btn-danger btn-delete" type="submit">Delete this exercice</button>
+  </form>
+
   <div class="col-lg-6 offset-lg-3 exerciceForm">
       <h1><%= exercice.question %></h1>
       <form action="/exercices/<%= exercice._id %>" method="POST">
@@ -17,6 +22,7 @@
         <input type="submit"  class="btn btn-primary" value="Submit">
       </form>
   </div>
+  <a href="/categories/<%= category._id %>" class="btn btn-primary goBackExerciceBtn">Go Back</a>
 </div>
 
 <%- include ./partials/footer %>
