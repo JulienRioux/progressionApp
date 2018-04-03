@@ -6,12 +6,15 @@ const User     = require("../models/User");
 const Exercice = require("../models/Exercice");
 const Category = require("../models/Category");
 
+// include the middlewares
+const middlewareObj = require("../middlewares");
+
 
 // ===============================
 //        Show exercices
 // ===============================
 
-router.get("/", (req, res)=>{
+router.get("/", middlewareObj.isLoggedIn, (req, res)=>{
   Category.find({}, (err, categories) =>{
     res.render("showCategories", {categories: categories});
   });
@@ -22,7 +25,7 @@ router.get("/", (req, res)=>{
 //       New category route
 // ===============================
 
-router.get("/new", (req, res)=>{
+router.get("/new", middlewareObj.isLoggedIn, (req, res)=>{
   res.render("newCategories");
 });
 
@@ -31,7 +34,7 @@ router.get("/new", (req, res)=>{
 //       Post New Category
 // ===============================
 
-router.post("/new", (req, res)=> {
+router.post("/new", middlewareObj.isLoggedIn, (req, res)=> {
   let title = req.body.title;
 
   // Validation
@@ -67,12 +70,12 @@ router.post("/new", (req, res)=> {
 //    Show categories exercices
 // ===============================
 
-router.get("/:id", (req, res)=>{
+router.get("/:id", middlewareObj.isLoggedIn, (req, res)=>{
 
   let currentUser = req.user;
   // Check if the user has progress in that category, otherwise, set the catefory progress to 0
   Category.findById(req.params.id, (err, category) => {
-    
+
     let currentCollection = category.id;
 
     if(currentUser.progress[category.title] === undefined){
@@ -115,7 +118,7 @@ router.get("/:id", (req, res)=>{
 
 // dont forget to delete all the user progress too!
 
-router.delete("/:id", (req, res)=>{
+router.delete("/:id", middlewareObj.isLoggedIn, (req, res)=>{
   console.log("DELETING!!!");
   // first check if there is exercices in the category
   Category.findById(req.params.id, (err, category)=>{
@@ -145,5 +148,6 @@ router.delete("/:id", (req, res)=>{
     }
   });
 });
+
 
 module.exports = router;

@@ -111,72 +111,76 @@ router.post("/:id", (req, res)=>{
   var errors = req.validationErrors();
 
   Exercice.findById(req.params.id, (err, exercice)=>{
-    console.log(exercice);
-    if(errors){
-        console.log(errors);
-        res.render("exercicePage", {
-              errors: errors,
-              exercice:exercice,
-              answer: answer
-        });
-    } else if(exercice.answer == req.body.answer){
-      // check if the user has already passed this exercice
-      User.findById(req.body.userID, (err, user)=>{
-        if(err){
-          throw err;
-        } else {
-          Category.findOne({ title:exercice.category }, (err, foundCategory)=>{
-            let currentCollection = foundCategory.title;
-
-            if(user.progress[currentCollection].progression == exercice.order){
-
-              // Set up a variable to be able to increment the progress for any collection
-              let newCollectionProg = {};
-              newCollectionProg["categoryID"] = foundCategory.id;
-              newCollectionProg["progression"] = user.progress[currentCollection].progression + 1;
-
-              // make a copy of the user progress object and add the new collection progress
-              let beforeMod = user.progress;
-              beforeMod[foundCategory.title] = newCollectionProg;
-
-              // add the collection to the progress object
-              User.findByIdAndUpdate({ _id:req.body.userID }, {progress: beforeMod}, {new:true}).exec();
-              console.log("USER: ", user);
-              if(err){
-                throw err;
-              } else {
-                // check if it's the last exercice of the exercice collection
-                Exercice.find({ category:foundCategory.title }, (err, AllExercices)=>{
-                  console.log("***", user.progress[currentCollection].progression, AllExercices.length);
-                  if(err){
-                    throw err;
-                  } else {
-                    // print the category progression in %
-                    let progressPrcnt = ((user.progress[currentCollection].progression) / AllExercices.length ) * 100;
-                    console.log("=> Progression: " + progressPrcnt + "%");
-                    // Check if it's the ;ast exercice of the category
-                    if(user.progress[currentCollection].progression == AllExercices.length){
-                      req.flash("success_msg", "You've passed it all!");
-                      // LATER: Change the color of the category and redirect to all the category...
-                    } else {
-                      req.flash("success_msg", "You've got it!");
-                    }
-                    res.redirect("/categories/" + foundCategory.id);
-                  }
-                });
-              };
+    Category.findOne({ title:exercice.category }, (err, foundCategory)=>{
+      if(err){
+        throw err;
+      } else {
+        if(errors){
+          res.render("exercicePage", {
+                errors: errors,
+                exercice:exercice,
+                answer: answer,
+              category: foundCategory
+          });
+        } else if(exercice.answer == req.body.answer){
+          // check if the user has already passed this exercice
+          User.findById(req.body.userID, (err, user)=>{
+            if(err){
+              throw err;
             } else {
-              req.flash("success_msg", "Once again, you've got it!");
-              res.redirect("/categories/" + foundCategory.id);
+              let currentCollection = foundCategory.title;
+
+              if(user.progress[currentCollection].progression == exercice.order){
+
+                // Set up a variable to be able to increment the progress for any collection
+                let newCollectionProg = {};
+                newCollectionProg["categoryID"] = foundCategory.id;
+                newCollectionProg["progression"] = user.progress[currentCollection].progression + 1;
+
+                // make a copy of the user progress object and add the new collection progress
+                let beforeMod = user.progress;
+                beforeMod[foundCategory.title] = newCollectionProg;
+
+                // add the collection to the progress object
+                User.findByIdAndUpdate({ _id:req.body.userID }, {progress: beforeMod}, {new:true}).exec();
+                console.log("USER: ", user);
+                if(err){
+                  throw err;
+                } else {
+                  // check if it's the last exercice of the exercice collection
+                  Exercice.find({ category:foundCategory.title }, (err, AllExercices)=>{
+                    console.log("***", user.progress[currentCollection].progression, AllExercices.length);
+                    if(err){
+                      throw err;
+                    } else {
+                      // print the category progression in %
+                      let progressPrcnt = ((user.progress[currentCollection].progression) / AllExercices.length ) * 100;
+                      console.log("=> Progression: " + progressPrcnt + "%");
+                      // Check if it's the ;ast exercice of the category
+                      if(user.progress[currentCollection].progression == AllExercices.length){
+                        req.flash("success_msg", "You've passed it all!");
+                        // LATER: Change the color of the category and redirect to all the category...
+                      } else {
+                        req.flash("success_msg", "You've got it!");
+                      }
+                      res.redirect("/categories/" + foundCategory.id);
+                    }
+                  });
+                };
+              } else {
+                req.flash("success_msg", "Once again, you've got it!");
+                res.redirect("/categories/" + foundCategory.id);
+              }
+
             }
           });
-        }
-      });
-    } else {
-      // If the answer didn't match!
-      req.flash("error_msg", "Try again!");
-      res.redirect("/exercices/"+ req.params.id);
-    };
+        } else {
+          // If the answer didn't match!
+          req.flash("error_msg", "Try again!");
+          res.redirect("/exercices/"+ req.params.id);
+        };
+      }
+    });
   });
 });
 
