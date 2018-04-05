@@ -1,16 +1,25 @@
 What to do next:
 
-- delete exercices
 
-- delete category => What to do with user category progress when deleted?
+DONE:
+// - delete category => What to do with user category progress when deleted?
+// - add the isLoggedIn middleware
+// - delete exercices
+
+TO DO:
 - check that there is no duplicate when add category
 - check that there is no duplicate when add exercices
-- authentification via email
 - Make possible to only admin to delete exercices
 - update exercices ?
 - give the category order
 - make the category re-order possible
 - make a restart progress button for category
+- make the alerts disepear after some seconds
+
+LATER:
 - implement code Exercices
 - better design
-- add the isLoggedIn middleware 
+- authentification via email
+- React implementation?
+- authentification with fb
+- add a like lifetime => take account of only the last likes => prevent outdated content

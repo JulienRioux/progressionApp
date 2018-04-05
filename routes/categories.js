@@ -11,14 +11,38 @@ const middlewareObj = require("../middlewares");
 
 
 // ===============================
-//        Show exercices
+//        Show categories
 // ===============================
 
 router.get("/", middlewareObj.isLoggedIn, (req, res)=>{
+
+	// find the number of exercices per category
   Category.find({}, (err, categories) =>{
-    res.render("showCategories", {categories: categories});
+		if(err) throw err;
+		Exercice.find({}, (err, exercices)=>{
+			if(err) throw err;
+			let categoryInfo = {};
+			categories.forEach((foundCategory)=> {
+				let numExercices = exercices.filter((exercice)=> exercice.category == foundCategory.title).length;
+				// find the user progress for every category
+				let userProgress = req.user.progress[foundCategory.title].progression;
+				categoryInfo[foundCategory.title] = {
+					numExercices: numExercices,
+					userProgress: userProgress
+				};
+			});
+			console.log(categoryInfo);
+			res.render("showCategories", {
+				categories: categories,
+				categoryInfo: categoryInfo
+			});
+		})
+		// categories.forEach((category)=> {
+		//
+		// });
   });
 });
+
 
 
 // ===============================

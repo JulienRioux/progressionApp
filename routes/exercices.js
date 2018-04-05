@@ -38,7 +38,7 @@ router.post("/:id/new", (req, res)=> {
               answer: answer,
           categoryID: categoryID
       });
-  } else {
+  } else { 
     Category.findById(categoryID, (err, category)=>{
       if(err){
         throw err;

@@ -6,6 +6,10 @@
   </div>
 </div>
 
+<%# If the category order is 0 => automatically made it accessible %>
+<%# Otherwise, if the category progress of the category before is 100%, unlock the category %>
+<%# If category progress is undefine => lock it unless it's the first category (0) %>
+
 <section id="showCategories">
   <div class="container">
 
@@ -14,19 +18,41 @@
     <div id="forEachCategories">
       <div class="row">
         <% categories.forEach((category) => { %>
+					<%  let numExercices = categoryInfo[category.title].numExercices %>
+					<%  let userProgress = categoryInfo[category.title].userProgress %>
+					<% let progress = Math.round(userProgress / numExercices * 100) %>
           <div class="col-lg-4">
             <a href="/categories/<%= category._id %>">
-              <div class="card text-white bg-primary mb-3">
 
-                <div class="card-header">
-                  Category <%= category.order %>
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <%= category.title %>
-                  </h5>
-                </div>
-              </div>
+              <% if(progress === 100){ %>
+								<div class="card text-white bg-success mb-3">
+	                <div class="card-header">
+	                  Category <%= category.order %>
+	                </div>
+	                <div class="card-body">
+	                  <h5 class="card-title">
+	                    <%= category.title %>
+	                  </h5>
+										<p class="lead"><%= numExercices %> exercices</p>
+										<p class="lead">COMPLETED</p>
+	                </div>
+	              </div>
+							<% } else { %>
+
+								<div class="card text-white bg-primary mb-3">
+									<div class="card-header">
+										Category <%= category.order %>
+									</div>
+									<div class="card-body">
+										<h5 class="card-title">
+											<%= category.title %>
+										</h5>
+										<p class="lead"><%= userProgress %> / <%= numExercices %> exercices</p>
+										<p class="lead">Progress: <%= progress %>%</p>
+									</div>
+								</div>
+
+							<% } %>
             </a>
           </div>
         <% }); %>
